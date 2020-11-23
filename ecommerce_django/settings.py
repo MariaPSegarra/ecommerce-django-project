@@ -29,7 +29,7 @@ SECRET_KEY = '2us6hfz59hn8u^p_m2*j!2wt8)vj7s-m_a48*f)1^8fn+9(i+o'
 DEBUG = True
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ecommerce-django-mps.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -132,12 +132,17 @@ WSGI_APPLICATION = 'ecommerce_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-  'default': {
-      'ENGINE': 'django.db.backends.sqlite3',
-      'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
